@@ -12,7 +12,12 @@
 #taskListContainer input[type="text"] {
     margin-left: 10px;
 }
+#taskListContainer input[type="text"]:disabled {
+    background-color: #f0f0f0; /* 無効化された入力フィールドの背景色 */
+    border: none; /* 無効化された入力フィールドのボーダーを削除 */
+}
 
 #taskListContainer button {
     margin-left: 5px;
+    cursor: pointer; /* ボタンにカーソルを表示 */
 }
