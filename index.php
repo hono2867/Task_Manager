@@ -28,7 +28,7 @@ ob_end_flush(); //出力バッファをフラッシュ
 
 <?php if ($error): ?>
     <p style="color: red;"><?php echo htmlspecialchars($error); ?></p>
-<?php endif; ?> //追加分
+<?php endif; ?> 
 
 
 <form method="post">
