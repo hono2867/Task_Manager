@@ -11,6 +11,10 @@ $error = null;
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	Task::update($_GET['id'], $_POST['title'], $_POST['description']);
 	if (!$error) {
+		shell_exec('git add tasks.json');
+        shell_exec('git commit -m "Auto-update tasks.json after task edit"');
+        shell_exec('git push');
+		
 		header('Location: index.php');
 		exit;
 	}
