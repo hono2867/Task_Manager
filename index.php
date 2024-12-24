@@ -100,8 +100,7 @@ function addTaskToDOM(task) {
 
     addButton.addEventListener('click', function() {
         let taskDetail = document.createElement('div');
-        taskDetail.style.display = 'flex'; // 横並びにする
-        taskDetail.style.alignItems = 'center'; // 中央揃えにする
+        taskDetail.classList.add('task-detail'); // 横並びにするクラスを追加
 
         let checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
