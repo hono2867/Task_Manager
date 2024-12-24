@@ -46,9 +46,11 @@ ob_end_flush(); //出力バッファをフラッシュ
 			<strong class="task-title" data-id="<?php echo $task['id']; ?><?php echo htmlspecialchars($task['title']); ?>
 			</strong>
 			<div class="task-details" id="task-<?php echo $task['id']; ?>" style="display: none;">
-			<p><?php echo htmlspecialchars($task['description']); ?></p>
-			<a href="edit.php?id=<?php echo $task['id']; ?>">Edit</a>
-			<a href="delete.php?id=<?php echo $task['id']; ?>">Delete</a>
+				<ul>
+				<li><strong>Description:</strong> <?php echo htmlspecialchars($task['description']); ?></li>
+                        <li><a href="edit.php?id=<?php echo $task['id']; ?>">Edit</a></li>
+                        <li><a href="delete.php?id=<?php echo $task['id']; ?>">Delete</a></li>	
+				</ul>
 			</div>
 		</li>
 	<?php endforeach; ?>
