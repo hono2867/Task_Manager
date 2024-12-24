@@ -1,6 +1,6 @@
 #taskTitleContainer {
     display: flex;
-    align-items: center; /* 中央揃えに修正 */
+    align-items: center;
 }
 
 #taskListContainer div {
@@ -10,7 +10,7 @@
     margin-top: 10px;
 }
 
-#taskListContainer div > div {
+.task-detail {
     display: flex; /* 横並びにする */
     align-items: center; /* 中央揃えにする */
     margin-top: 5px;
