@@ -96,7 +96,7 @@ function addTaskToDOM(task) {
 
     let addButton = document.createElement('button');
     addButton.textContent = '＋';
-    taskDetailContainer.appendChild(addButton); // タイトルの下に配置
+    taskItem.appendChild(addButton); // タイトルの下に配置
 
     addButton.addEventListener('click', function() {
         let taskDetail = document.createElement('div');
@@ -130,13 +130,11 @@ function addTaskToDOM(task) {
         // 削除ボタンのクリックイベント
         deleteButton.addEventListener('click', function() {
             taskDetailContainer.removeChild(taskDetail); // タスク詳細を削除
-            if (taskDetailContainer.children.length === 1) { // addButton だけが残っている場合
+            if (taskDetailContainer.children.length === 0) { // タスク詳細が全て削除された場合
                 document.getElementById('taskListContainer').removeChild(taskItem); // タスク全体を削除
             }
             removeTask(task);
         });
-
-        addButton.style.display = 'none'; // ＋ボタンを非表示
     });
 }
 
