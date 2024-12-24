@@ -29,9 +29,9 @@ ob_end_flush(); //出力バッファをフラッシュ
 <?php if ($error): ?>
     <p style="color: red;"><?php echo htmlspecialchars($error); ?></p>
 <?php endif; ?> 
+<button id="createTaskButton">Create New Task</button>
 
-
-<form method="post">
+<form id="createTaskForm" method="post" style="display: none;">
 	<label>Title</label>
 	<input type="text" name="title" required>
 	<label>Description</label>
