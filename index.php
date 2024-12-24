@@ -88,41 +88,55 @@ function addTaskToDOM(task) {
     let taskItem = document.createElement('div');
     let taskTitle = document.createElement('span');
     taskTitle.textContent = task.title;
+    let taskDetailContainer = document.createElement('div'); // タスク詳細を格納するコンテナ
+
+    taskItem.appendChild(taskTitle);
+    taskItem.appendChild(taskDetailContainer);
     document.getElementById('taskListContainer').appendChild(taskItem);
 
-    let taskDetail = document.createElement('div');
-    let checkbox = document.createElement('input');
-    checkbox.type = 'checkbox';
-    let taskInput = document.createElement('input');
-    taskInput.type = 'text';
-    taskInput.placeholder = 'Enter task detail';
-    let editButton = document.createElement('button');
-    editButton.textContent = 'edit';
-    let deleteButton = document.createElement('button');
-    deleteButton.textContent = 'delete';
+    let addButton = document.createElement('button');
+    addButton.textContent = '＋';
+    taskItem.appendChild(addButton);
 
-    taskDetail.appendChild(checkbox);
-    taskDetail.appendChild(taskInput);
-    taskDetail.appendChild(editButton);
-    taskDetail.appendChild(deleteButton);
-    taskItem.appendChild(taskTitle);
-    taskItem.appendChild(taskDetail);
+    addButton.addEventListener('click', function() {
+        let taskDetail = document.createElement('div');
+        let checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        let taskInput = document.createElement('input');
+        taskInput.type = 'text';
+        taskInput.placeholder = 'Enter task detail';
+        let editButton = document.createElement('button');
+        editButton.textContent = 'edit';
+        let deleteButton = document.createElement('button');
+        deleteButton.textContent = 'delete';
 
-    // 編集ボタンのクリックイベント
-    editButton.addEventListener('click', function() {
-        taskInput.disabled = !taskInput.disabled; // 入力フィールドの有効/無効を切り替え
-        if (!taskInput.disabled) {
-            taskInput.focus(); // 編集モードの場合、入力フィールドにフォーカス
-        } else {
-            task.details = taskInput.value;
-            updateTask(task.title, task.details); // 編集内容を保存
-        }
-    });
+        taskDetail.appendChild(checkbox);
+        taskDetail.appendChild(taskInput);
+        taskDetail.appendChild(editButton);
+        taskDetail.appendChild(deleteButton);
+        taskDetailContainer.appendChild(taskDetail); // タスク詳細をコンテナに追加
 
-    // 削除ボタンのクリックイベント
-    deleteButton.addEventListener('click', function() {
-        document.getElementById('taskListContainer').removeChild(taskItem); // タスクを削除
-        removeTask(task);
+        // 編集ボタンのクリックイベント
+        editButton.addEventListener('click', function() {
+            taskInput.disabled = !taskInput.disabled; // 入力フィールドの有効/無効を切り替え
+            if (!taskInput.disabled) {
+                taskInput.focus(); // 編集モードの場合、入力フィールドにフォーカス
+            } else {
+                task.details = taskInput.value;
+                updateTask(task.title, task.details); // 編集内容を保存
+            }
+        });
+
+        // 削除ボタンのクリックイベント
+        deleteButton.addEventListener('click', function() {
+            taskDetailContainer.removeChild(taskDetail); // タスク詳細を削除
+            if (taskDetailContainer.children.length === 0) {
+                document.getElementById('taskListContainer').removeChild(taskItem); // タスク全体を削除
+            }
+            removeTask(task);
+        });
+
+        addButton.style.display = 'none'; // ＋ボタンを非表示
     });
 }
 
@@ -147,5 +161,34 @@ function removeTask(taskToRemove) {
     let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
     tasks = tasks.filter(task => task.title !== taskToRemove.title);
     localStorage.setItem('tasks', JSON.stringify(tasks));
+}
+変更後のCSS
+タスクの詳細入力ボックスとボタンの配置を整えるために、CSSを調整します。
+
+/* styles.css */
+#taskTitleContainer {
+    display: flex;
+    align-items: center;
+}
+
+#taskListContainer div {
+    display: flex;
+    flex-direction: column; /* 縦に並べる */
+    align-items: flex-start;
+    margin-top: 10px;
+}
+
+#taskListContainer input[type="text"] {
+    margin-left: 10px;
+}
+
+#taskListContainer button {
+    margin-left: 5px;
+    cursor: pointer; /* ボタンにカーソルを表示 */
+}
+
+#taskListContainer input[type="text"]:disabled {
+    background-color: #f0f0f0; /* 無効化された入力フィールドの背景色 */
+    border: none; /* 無効化された入力フィールドのボーダーを削除 */
 }
 </script>
