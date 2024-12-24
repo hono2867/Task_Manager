@@ -61,6 +61,7 @@ $description];
 		});
 		saveTasks($tasks);
 	}
+
 	// バリデーションメソッドの追加
     	private static function validate($title, $description)
     	{
@@ -68,5 +69,6 @@ $description];
             return "タイトルを入力してください";
         }
     	}
+ 
 }
 ?>
