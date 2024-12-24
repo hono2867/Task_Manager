@@ -1,0 +1,18 @@
+#taskTitleContainer {
+    display: flex;
+    align-items: center;
+}
+
+#taskListContainer div {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+#taskListContainer input[type="text"] {
+    margin-left: 10px;
+}
+
+#taskListContainer button {
+    margin-left: 5px;
+}
