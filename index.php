@@ -88,49 +88,41 @@ function addTaskToDOM(task) {
     let taskItem = document.createElement('div');
     let taskTitle = document.createElement('span');
     taskTitle.textContent = task.title;
-    let addButton = document.createElement('button');
-    addButton.textContent = '＋';
-
-    taskItem.appendChild(taskTitle);
-    taskItem.appendChild(addButton);
     document.getElementById('taskListContainer').appendChild(taskItem);
 
-    addButton.addEventListener('click', function() {
-        let taskDetail = document.createElement('div');
-        let checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        let taskInput = document.createElement('input');
-        taskInput.type = 'text';
-        taskInput.placeholder = 'Enter task detail';
-        let editButton = document.createElement('button');
-        editButton.textContent = 'edit';
-        let deleteButton = document.createElement('button');
-        deleteButton.textContent = 'delete';
+    let taskDetail = document.createElement('div');
+    let checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    let taskInput = document.createElement('input');
+    taskInput.type = 'text';
+    taskInput.placeholder = 'Enter task detail';
+    let editButton = document.createElement('button');
+    editButton.textContent = 'edit';
+    let deleteButton = document.createElement('button');
+    deleteButton.textContent = 'delete';
 
-        taskDetail.appendChild(checkbox);
-        taskDetail.appendChild(taskInput);
-        taskDetail.appendChild(editButton);
-        taskDetail.appendChild(deleteButton);
-        taskItem.appendChild(taskDetail);
+    taskDetail.appendChild(checkbox);
+    taskDetail.appendChild(taskInput);
+    taskDetail.appendChild(editButton);
+    taskDetail.appendChild(deleteButton);
+    taskItem.appendChild(taskTitle);
+    taskItem.appendChild(taskDetail);
 
-        // 編集ボタンのクリックイベント
-        editButton.addEventListener('click', function() {
-            taskInput.disabled = !taskInput.disabled; // 入力フィールドの有効/無効を切り替え
-            if (!taskInput.disabled) {
-                taskInput.focus(); // 編集モードの場合、入力フィールドにフォーカス
-            } else {
-                task.details = taskInput.value;
-                updateTask(task.title, task.details); // 編集内容を保存
-            }
-        });
+    // 編集ボタンのクリックイベント
+    editButton.addEventListener('click', function() {
+        taskInput.disabled = !taskInput.disabled; // 入力フィールドの有効/無効を切り替え
+        if (!taskInput.disabled) {
+            taskInput.focus(); // 編集モードの場合、入力フィールドにフォーカス
+        } else {
+            task.details = taskInput.value;
+            updateTask(task.title, task.details); // 編集内容を保存
+        }
+    });
 
-        // 削除ボタンのクリックイベント
-        deleteButton.addEventListener('click', function() {
-            document.getElementById('taskListContainer').removeChild(taskItem); // タスクを削除
-            removeTask(task);
-        });
-
-        addButton.style.display = 'none'; // ＋ボタンを非表示
+    // 削除ボタンのクリックイベント
+    deleteButton.addEventListener('click', function() {
+        document.getElementById('taskListContainer').removeChild(taskItem); // タスクを削除
+        removeTask(task);
     });
 }
 
