@@ -34,8 +34,6 @@ ob_end_flush(); //出力バッファをフラッシュ
 <form id="createTaskForm" method="post" style="display: none;">
 	<label>Title</label>
 	<input type="text" name="title" required>
-	<label>Description</label>
-	<textarea name ="description" required></textarea>
 	<button type="submit">Create</button>
 </form>
 
