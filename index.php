@@ -85,6 +85,19 @@ document.getElementById('addTaskButton').addEventListener('click', function() {
     taskDetail.appendChild(editButton);
     taskDetail.appendChild(deleteButton);
     document.getElementById('taskListContainer').appendChild(taskDetail);
+
+ // 編集ボタンのクリックイベント
+ editButton.addEventListener('click', function() {
+        taskInput.disabled = !taskInput.disabled; // 入力フィールドの有効/無効を切り替え
+        if (!taskInput.disabled) {
+            taskInput.focus(); // 編集モードの場合、入力フィールドにフォーカス
+        }
+    });
+
+    // 削除ボタンのクリックイベント
+    deleteButton.addEventListener('click', function() {
+        document.getElementById('taskListContainer').removeChild(taskDetail); // タスクを削除
+    });
 });
 
 document.querySelectorAll('.task-title').forEach(function(title) {
