@@ -111,4 +111,67 @@ document.querySelectorAll('.task-title').forEach(function(title) {
         }
     });
 });
+
+// ページが読み込まれたときにタスクを復元
+document.addEventListener('DOMContentLoaded', function() {
+    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    tasks.forEach(function(task) {
+        addTaskToDOM(task);
+    });
+});
+
+document.getElementById('addTaskButton').addEventListener('click', function() {
+    let taskDetail = {
+        title: document.querySelector('input[name="title"]').value,
+        details: ''
+    };
+    addTaskToDOM(taskDetail);
+    saveTask(taskDetail);
+});
+
+function addTaskToDOM(task) {
+    let taskDetail = document.createElement('div');
+    let checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    let taskInput = document.createElement('input');
+    taskInput.type = 'text';
+    taskInput.value = task.details;
+    taskInput.placeholder = 'Enter task detail';
+    let editButton = document.createElement('button');
+    editButton.textContent = 'edit';
+    let deleteButton = document.createElement('button');
+    deleteButton.textContent = 'delete';
+
+    taskDetail.appendChild(checkbox);
+    taskDetail.appendChild(taskInput);
+    taskDetail.appendChild(editButton);
+    taskDetail.appendChild(deleteButton);
+    document.getElementById('taskListContainer').appendChild(taskDetail);
+
+    // 編集ボタンのクリックイベント
+    editButton.addEventListener('click', function() {
+        taskInput.disabled = !taskInput.disabled; // 入力フィールドの有効/無効を切り替え
+        if (!taskInput.disabled) {
+            taskInput.focus(); // 編集モードの場合、入力フィールドにフォーカス
+        }
+    });
+
+    // 削除ボタンのクリックイベント
+    deleteButton.addEventListener('click', function() {
+        document.getElementById('taskListContainer').removeChild(taskDetail); // タスクを削除
+        removeTask(task);
+    });
+}
+
+function saveTask(task) {
+    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    tasks.push(task);
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+}
+
+function removeTask(taskToRemove) {
+    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    tasks = tasks.filter(task => task.title !== taskToRemove.title);
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+}
 </script>
