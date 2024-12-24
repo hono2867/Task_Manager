@@ -43,11 +43,13 @@ ob_end_flush(); //出力バッファをフラッシュ
 	<?php if (!empty($tasks)): ?>
 	<?php foreach ($tasks as $task): ?>
 		<li>
-			<strong><?php echo htmlspecialchars($task['title']); ?>
+			<strong class="task-title" data-id="<?php echo $task['id']; ?><?php echo htmlspecialchars($task['title']); ?>
 			</strong>
+			<div class="task-details" id="task-<?php echo $task['id']; ?>" style="display: none;">
 			<p><?php echo htmlspecialchars($task['description']); ?></p>
 			<a href="edit.php?id=<?php echo $task['id']; ?>">Edit</a>
 			<a href="delete.php?id=<?php echo $task['id']; ?>">Delete</a>
+			</div>
 		</li>
 	<?php endforeach; ?>
 	<?php else: ?>
@@ -58,3 +60,20 @@ ob_end_flush(); //出力バッファをフラッシュ
 
 <?php require 'footer.php'; ?>
  	
+<script>
+document.getElementById('createTaskButton').addEventListener('click', function() {
+    document.getElementById('createTaskForm').style.display = 'block';
+});
+
+document.querySelectorAll('.task-title').forEach(function(title) {
+    title.addEventListener('click', function() {
+        var taskId = this.getAttribute('data-id');
+        var taskDetails = document.getElementById('task-' + taskId);
+        if (taskDetails.style.display === 'none') {
+            taskDetails.style.display = 'block';
+        } else {
+            taskDetails.style.display = 'none';
+        }
+    });
+});
+</script>
