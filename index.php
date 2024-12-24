@@ -68,6 +68,25 @@ document.getElementById('createTaskButton').addEventListener('click', function()
     document.getElementById('createTaskForm').style.display = 'block';
 });
 
+document.getElementById('addTaskButton').addEventListener('click', function() {
+    let taskDetail = document.createElement('div');
+    let checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    let taskInput = document.createElement('input');
+    taskInput.type = 'text';
+    taskInput.placeholder = 'Enter task detail';
+    let editButton = document.createElement('button');
+    editButton.textContent = 'edit';
+    let deleteButton = document.createElement('button');
+    deleteButton.textContent = 'delete';
+
+    taskDetail.appendChild(checkbox);
+    taskDetail.appendChild(taskInput);
+    taskDetail.appendChild(editButton);
+    taskDetail.appendChild(deleteButton);
+    document.getElementById('taskListContainer').appendChild(taskDetail);
+});
+
 document.querySelectorAll('.task-title').forEach(function(title) {
     title.addEventListener('click', function() {
         var taskId = this.getAttribute('data-id');
