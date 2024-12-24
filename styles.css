@@ -1,5 +1,6 @@
 #taskTitleContainer {
     display: flex;
+    flex-direction: column; /* 縦に並べる */
     align-items: center;
 }
 
