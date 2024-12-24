@@ -1,6 +1,6 @@
 #taskTitleContainer {
     display: flex;
-    align-items: flex-i;
+    align-items: center; /* 中央揃えに修正 */
 }
 
 #taskListContainer div {
@@ -19,6 +19,7 @@
 #taskListContainer input[type="text"] {
     margin-left: 10px;
 }
+
 #taskListContainer input[type="text"]:disabled {
     background-color: #f0f0f0; /* 無効化された入力フィールドの背景色 */
     border: none; /* 無効化された入力フィールドのボーダーを削除 */
