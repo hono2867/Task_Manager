@@ -32,6 +32,7 @@ class Task
 		$tasks[] = ['id' => $id, 'title' => $title, 'description' =>
 $description];
 		saveTasks($tasks);
+		return null;
 	}
 
 	public static function update($id,$title,$description)
@@ -51,6 +52,7 @@ $description];
 			}
 		}
 		saveTasks($tasks);
+		return null;
 	}
 
 	public static function delete($id)
