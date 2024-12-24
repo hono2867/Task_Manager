@@ -1,12 +1,12 @@
 #taskTitleContainer {
     display: flex;
-    flex-direction: column; /* 縦に並べる */
-    align-items: center;
+    align-items: flex-i;
 }
 
 #taskListContainer div {
     display: flex;
-    align-items: center;
+    flex-direction: column; /* 縦に並べる */
+    align-items: flex-start;
     margin-top: 10px;
 }
 
