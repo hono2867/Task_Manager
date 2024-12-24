@@ -1,6 +1,6 @@
 #taskTitleContainer {
     display: flex;
-    align-items: flex-i;
+    align-items: center;
 }
 
 #taskListContainer div {
@@ -8,6 +8,12 @@
     flex-direction: column; /* 縦に並べる */
     align-items: flex-start;
     margin-top: 10px;
+}
+
+#taskListContainer div > div {
+    display: flex; /* 横並びにする */
+    align-items: center; /* 中央揃えにする */
+    margin-top: 5px;
 }
 
 #taskListContainer input[type="text"] {
