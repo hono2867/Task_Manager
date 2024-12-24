@@ -5,8 +5,7 @@
 
 #taskListContainer div {
     display: flex;
-    flex-direction: column; /* 縦に並べる */
-    align-items: flex-start;
+    align-items: center;
     margin-top: 10px;
 }
 
