@@ -162,33 +162,4 @@ function removeTask(taskToRemove) {
     tasks = tasks.filter(task => task.title !== taskToRemove.title);
     localStorage.setItem('tasks', JSON.stringify(tasks));
 }
-変更後のCSS
-タスクの詳細入力ボックスとボタンの配置を整えるために、CSSを調整します。
-
-/* styles.css */
-#taskTitleContainer {
-    display: flex;
-    align-items: center;
-}
-
-#taskListContainer div {
-    display: flex;
-    flex-direction: column; /* 縦に並べる */
-    align-items: flex-start;
-    margin-top: 10px;
-}
-
-#taskListContainer input[type="text"] {
-    margin-left: 10px;
-}
-
-#taskListContainer button {
-    margin-left: 5px;
-    cursor: pointer; /* ボタンにカーソルを表示 */
-}
-
-#taskListContainer input[type="text"]:disabled {
-    background-color: #f0f0f0; /* 無効化された入力フィールドの背景色 */
-    border: none; /* 無効化された入力フィールドのボーダーを削除 */
-}
 </script>
