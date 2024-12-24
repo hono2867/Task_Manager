@@ -34,8 +34,11 @@ ob_end_flush(); //出力バッファをフラッシュ
 <form id="createTaskForm" method="post" style="display: none;">
 	<label>Title</label>
 	<input type="text" name="title" required>
+	<button type="button" id="addTaskButton">+</button>
 	<button type="submit">Create</button>
 </form>
+
+<div id="taskListContainer"></div>
 
 <ul>
 	<?php if (!empty($tasks)): ?>
