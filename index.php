@@ -11,6 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
 $tasks = Task::all();
+ob_end_flush();
 ?>
 
 
