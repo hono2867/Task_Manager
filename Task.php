@@ -21,6 +21,12 @@ class Task
 
 	public static function create($title, $description)
 	{
+		 // バリデーション
+        	$error = self::validate($title, $description);
+       		if ($error) {
+            	return $error;
+        	}
+		
 		$tasks = loadTasks();
 		$id = count($tasks) + 1;
 		$tasks[] = ['id' => $id, 'title' => $title, 'description' =>
@@ -30,6 +36,12 @@ $description];
 
 	public static function update($id,$title,$description)
 	{
+		// バリデーション
+        	$error = self::validate($title, $description);
+        	if ($error) {
+            	return $error;
+        	}
+		
 		$tasks = loadTasks();
 		foreach ($tasks as &$task) {
 			if ($task['id'] == $id) {
@@ -49,5 +61,12 @@ $description];
 		});
 		saveTasks($tasks);
 	}
+	// バリデーションメソッドの追加
+    	private static function validate($title, $description)
+    	{
+        if (empty($title) || trim($title) === "") {
+            return "タイトルを入力してください";
+        }
+    	}
 }
 ?>
