@@ -22,7 +22,7 @@ ob_end_flush(); //出力バッファをフラッシュ
 <h2>Edit Task</h2>
 <?php if ($error): ?>
     <p style="color: red;"><?php echo htmlspecialchars($error); ?></p>
-<?php endif; ?> //追加分
+<?php endif; ?> 
 
 <form method="post">
 	<label>Title</label>
