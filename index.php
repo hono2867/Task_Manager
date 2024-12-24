@@ -43,7 +43,7 @@ ob_end_flush(); //出力バッファをフラッシュ
 	<?php if (!empty($tasks)): ?>
 	<?php foreach ($tasks as $task): ?>
 		<li>
-			<strong class="task-title" data-id="<?php echo $task['id']; ?><?php echo htmlspecialchars($task['title']); ?>
+			<strong class="task-title" data-id="<?php echo $task['id']; ?>"><?php echo htmlspecialchars($task['title']); ?>
 			</strong>
 			<div class="task-details" id="task-<?php echo $task['id']; ?>" style="display: none;">
 				<ul>
