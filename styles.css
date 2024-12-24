@@ -1,6 +1,6 @@
 #taskTitleContainer {
     display: flex;
-    align-items: center;
+    align-items: flex-i;
 }
 
 #taskListContainer div {
