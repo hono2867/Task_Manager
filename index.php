@@ -1,16 +1,22 @@
 <?php
+ob_start(); //出力バッファ開始
 require'header.php';
 require'Task.php';
 
+$error = null;
+
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-	Task::create($_POST['title'], $_POST['description']);
+	$error = Task::create($_POST['title'], $_POST['description']);
+	if (!$error) {
 	header('Location: index.php');
 	exit;
+	}
 }
 
 
 $tasks = Task::all();
+ob_end_flush(); //出力バッファをフラッシュ
 ?>
 
 
@@ -19,6 +25,12 @@ $tasks = Task::all();
 
 
 <h3>Create NewTask</h3>
+
+<?php if ($error): ?>
+    <p style="color: red;"><?php echo htmlspecialchars($error); ?></p>
+<?php endif; ?> //追加分
+
+
 <form method="post">
 	<label>Title</label>
 	<input type="text" name="title" required>
