@@ -149,4 +149,98 @@ function removeTask(taskToRemove) {
     tasks = tasks.filter(task => task.title !== taskToRemove.title);
     localStorage.setItem('tasks', JSON.stringify(tasks));
 }
+
+// ページが読み込まれたときにタスクを復元
+document.addEventListener('DOMContentLoaded', function() {
+    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    tasks.forEach(function(task) {
+        addTaskToDOM(task);
+    });
+});
+
+document.getElementById('createTaskButton').addEventListener('click', function() {
+    document.getElementById('createTaskForm').style.display = 'block';
+});
+
+document.getElementById('createTaskForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    let title = document.querySelector('input[name="title"]').value;
+    let task = { title: title, details: '' };
+    addTaskToDOM(task);
+    saveTask(task);
+    document.querySelector('input[name="title"]').value = ''; // フォームをリセット
+});
+
+function addTaskToDOM(task) {
+    let taskItem = document.createElement('div');
+    let taskTitle = document.createElement('span');
+    taskTitle.textContent = task.title;
+    let addButton = document.createElement('button');
+    addButton.textContent = '＋';
+
+    taskItem.appendChild(taskTitle);
+    taskItem.appendChild(addButton);
+    document.getElementById('taskListContainer').appendChild(taskItem);
+
+    addButton.addEventListener('click', function() {
+        let taskDetail = document.createElement('div');
+        let checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        let taskInput = document.createElement('input');
+        taskInput.type = 'text';
+        taskInput.placeholder = 'Enter task detail';
+        let editButton = document.createElement('button');
+        editButton.textContent = 'edit';
+        let deleteButton = document.createElement('button');
+        deleteButton.textContent = 'delete';
+
+        taskDetail.appendChild(checkbox);
+        taskDetail.appendChild(taskInput);
+        taskDetail.appendChild(editButton);
+        taskDetail.appendChild(deleteButton);
+        taskItem.appendChild(taskDetail);
+
+        // 編集ボタンのクリックイベント
+        editButton.addEventListener('click', function() {
+            taskInput.disabled = !taskInput.disabled; // 入力フィールドの有効/無効を切り替え
+            if (!taskInput.disabled) {
+                taskInput.focus(); // 編集モードの場合、入力フィールドにフォーカス
+            } else {
+                task.details = taskInput.value;
+                updateTask(task.title, task.details); // 編集内容を保存
+            }
+        });
+
+        // 削除ボタンのクリックイベント
+        deleteButton.addEventListener('click', function() {
+            document.getElementById('taskListContainer').removeChild(taskItem); // タスクを削除
+            removeTask(task);
+        });
+
+        addButton.style.display = 'none'; // ＋ボタンを非表示
+    });
+}
+
+function saveTask(task) {
+    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    tasks.push(task);
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+}
+
+function updateTask(title, newDetails) {
+    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    tasks = tasks.map(task => {
+        if (task.title === title) {
+            task.details = newDetails;
+        }
+        return task;
+    });
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+}
+
+function removeTask(taskToRemove) {
+    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    tasks = tasks.filter(task => task.title !== taskToRemove.title);
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+}
 </script>
