@@ -34,7 +34,6 @@ ob_end_flush(); //出力バッファをフラッシュ
 <form id="createTaskForm" method="post" style="display: none;">
 	<label>Title</label>
 	<input type="text" name="title" required>
-	<button type="button" id="addTaskButton">+</button>
 	<button type="submit">Create</button>
 </form>
 
@@ -64,55 +63,7 @@ ob_end_flush(); //出力バッファをフラッシュ
 <?php require 'footer.php'; ?>
  	
 <script>
-document.getElementById('createTaskButton').addEventListener('click', function() {
-    document.getElementById('createTaskForm').style.display = 'block';
-});
-
-document.getElementById('addTaskButton').addEventListener('click', function() {
-    let taskDetail = document.createElement('div');
-    let checkbox = document.createElement('input');
-    checkbox.type = 'checkbox';
-    let taskInput = document.createElement('input');
-    taskInput.type = 'text';
-    taskInput.placeholder = 'Enter task detail';
-    let editButton = document.createElement('button');
-    editButton.textContent = 'edit';
-    let deleteButton = document.createElement('button');
-    deleteButton.textContent = 'delete';
-
-    taskDetail.appendChild(checkbox);
-    taskDetail.appendChild(taskInput);
-    taskDetail.appendChild(editButton);
-    taskDetail.appendChild(deleteButton);
-    document.getElementById('taskListContainer').appendChild(taskDetail);
-
- // 編集ボタンのクリックイベント
- editButton.addEventListener('click', function() {
-        taskInput.disabled = !taskInput.disabled; // 入力フィールドの有効/無効を切り替え
-        if (!taskInput.disabled) {
-            taskInput.focus(); // 編集モードの場合、入力フィールドにフォーカス
-        }
-    });
-
-    // 削除ボタンのクリックイベント
-    deleteButton.addEventListener('click', function() {
-        document.getElementById('taskListContainer').removeChild(taskDetail); // タスクを削除
-    });
-});
-
-document.querySelectorAll('.task-title').forEach(function(title) {
-    title.addEventListener('click', function() {
-        var taskId = this.getAttribute('data-id');
-        var taskDetails = document.getElementById('task-' + taskId);
-        if (taskDetails.style.display === 'none') {
-            taskDetails.style.display = 'block';
-        } else {
-            taskDetails.style.display = 'none';
-        }
-    });
-});
-
-// ページが読み込まれたときにタスクを復元
+	// ページが読み込まれたときにタスクを復元
 document.addEventListener('DOMContentLoaded', function() {
     let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
     tasks.forEach(function(task) {
@@ -120,52 +71,76 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-document.getElementById('addTaskButton').addEventListener('click', function() {
-    let taskDetail = {
-        title: document.querySelector('input[name="title"]').value,
-        details: ''
-    };
-    addTaskToDOM(taskDetail);
-    saveTask(taskDetail);
+document.getElementById('createTaskButton').addEventListener('click', function() {
+    document.getElementById('createTaskForm').style.display = 'block';
+});
+
+document.getElementById('createTaskForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    let title = document.querySelector('input[name="title"]').value;
+    let task = { title: title, details: '' };
+    addTaskToDOM(task);
+    saveTask(task);
+    document.querySelector('input[name="title"]').value = ''; // フォームをリセット
 });
 
 function addTaskToDOM(task) {
-    let taskDetail = document.createElement('div');
-    let checkbox = document.createElement('input');
-    checkbox.type = 'checkbox';
-    let taskInput = document.createElement('input');
-    taskInput.type = 'text';
-    taskInput.value = task.details;
-    taskInput.placeholder = 'Enter task detail';
-    let editButton = document.createElement('button');
-    editButton.textContent = 'edit';
-    let deleteButton = document.createElement('button');
-    deleteButton.textContent = 'delete';
+    let taskItem = document.createElement('div');
+    let taskTitle = document.createElement('span');
+    taskTitle.textContent = task.title;
+    let addButton = document.createElement('button');
+    addButton.textContent = '＋';
 
-    taskDetail.appendChild(checkbox);
-    taskDetail.appendChild(taskInput);
-    taskDetail.appendChild(editButton);
-    taskDetail.appendChild(deleteButton);
-    document.getElementById('taskListContainer').appendChild(taskDetail);
+    taskItem.appendChild(taskTitle);
+    taskItem.appendChild(addButton);
+    document.getElementById('taskListContainer').appendChild(taskItem);
 
-    // 編集ボタンのクリックイベント
-    editButton.addEventListener('click', function() {
-        taskInput.disabled = !taskInput.disabled; // 入力フィールドの有効/無効を切り替え
-        if (!taskInput.disabled) {
-            taskInput.focus(); // 編集モードの場合、入力フィールドにフォーカス
-        }
-    });
+    addButton.addEventListener('click', function() {
+        let editButton = document.createElement('button');
+        editButton.textContent = 'edit';
+        let deleteButton = document.createElement('button');
+        deleteButton.textContent = 'delete';
 
-    // 削除ボタンのクリックイベント
-    deleteButton.addEventListener('click', function() {
-        document.getElementById('taskListContainer').removeChild(taskDetail); // タスクを削除
-        removeTask(task);
+        taskItem.appendChild(editButton);
+        taskItem.appendChild(deleteButton);
+
+        editButton.addEventListener('click', function() {
+            let taskInput = document.createElement('input');
+            taskInput.type = 'text';
+            taskInput.value = task.details;
+            taskItem.insertBefore(taskInput, editButton);
+            taskInput.focus();
+
+            taskInput.addEventListener('blur', function() {
+                task.details = taskInput.value;
+                updateTask(task.title, task.details);
+                taskItem.removeChild(taskInput);
+            });
+        });
+
+        deleteButton.addEventListener('click', function() {
+            document.getElementById('taskListContainer').removeChild(taskItem);
+            removeTask(task);
+        });
+
+        addButton.style.display = 'none'; // ＋ボタンを非表示
     });
 }
 
 function saveTask(task) {
     let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
     tasks.push(task);
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+}
+
+function updateTask(title, newDetails) {
+    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    tasks = tasks.map(task => {
+        if (task.title === title) {
+            task.details = newDetails;
+        }
+        return task;
+    });
     localStorage.setItem('tasks', JSON.stringify(tasks));
 }
 
